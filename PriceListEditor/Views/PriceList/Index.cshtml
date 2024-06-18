@@ -1,0 +1,41 @@
+﻿@using PriceListEditor.Pagination
+@model PagedList<PriceList>
+
+<h2>Прайсы</h2>
+
+<div id="price-lists-container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Название</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (PriceList priceList in Model)
+            {
+                <tr>
+                    <td>@priceList.Id</td>
+                    <td>@priceList.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@if(Model.totalPages > 1)
+{
+    int maxPageDisplayed = 5;
+    int minPageCount = maxPageDisplayed > Model.totalPages ? Model.totalPages : maxPageDisplayed;
+    <button type="button" class="btn-price-lists-pagination">&#8592;</button>
+    for (int i = 0; i < minPageCount; i++)
+    {
+        <button type="button" class="btn-price-lists-pagination">@(i + 1)</button>
+    }
+    <button type="button" class="btn-price-lists-pagination">&#8594;</button>
+}
+
+<scripts>
+    <script charset="utf-8" type="text/javascript" src="~/js/price_lists_pagination.js"></script>
+</scripts>

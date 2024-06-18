@@ -1,3 +1,8 @@
+using PriceListEditor.Persistence.Repositories;
+using PriceListEditor.Persistence.Repositories.Contracts;
+using PriceListEditor.Services;
+using PriceListEditor.Services.Contracts;
+
 namespace PriceListEditor
 {
     public class Program
@@ -8,6 +13,9 @@ namespace PriceListEditor
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IPriceListsRepository, PriceListsRepository>();
+            builder.Services.AddScoped<IFeaturesRepository, FeaturesRepository>();
+            builder.Services.AddScoped<IPriceListService, PriceListService>();
 
             var app = builder.Build();
 

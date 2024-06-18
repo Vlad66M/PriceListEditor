@@ -1,0 +1,62 @@
+﻿@using PriceListEditor.Enums
+@using PriceListEditor.ViewModels
+@model PriceListVM
+
+<form method="post" asp-action="Create" asp-controller="PriceList" asp-antiforgery="true" >
+    <div class="validation" asp-validation-summary="ModelOnly">  </div>
+    <div class="form-group">
+        <label for="Name">Название прайс-листа *</label>
+        <input type="text" name="Name" class="form-control">
+    </div>
+
+    <div id="columns-container">
+        @{
+            int columnNumber = 0;
+        }
+        @foreach(var f in ViewData["features"] as List<Feature>)
+        {
+            <div class="d-flex flex-row">
+                <div class="form-control">
+                    <span class="fw-bold cols-selector">Колонка @columnNumber</span>
+                </div>
+                <div class="form-control">
+                    <input readonly value="@f.Title" type="text" name="Features[@columnNumber].Title" class="form-control features-name-selector" placeholder="Имя колонки">
+                </div>
+                <div class="form-control">
+                    <select readonly name="Features[@columnNumber].Type" class="form-select features-type-selector" aria-label="Default select example">
+                        @* <option selected>--Тип записи--</option> *@
+                        @if(f.Type == FeatureType.Number)
+                        {
+                            <option selected="true" value="number">Число</option>
+                        }
+                        @if (f.Type == FeatureType.Line)
+                        {
+                            <option selected="true" value="line">Однострочный текст</option>
+                        }
+                        @if (f.Type == FeatureType.Multiline)
+                        {
+                            <option selected="true" value="multiline">Многострочный текст</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-control">
+                    <button type="button" class="btn-danger" onclick="return this.parentNode.parentNode.remove();">Удалить</button>
+                </div>
+            </div>
+            columnNumber++;
+        }
+        
+    </div>
+    
+    
+    <button type="button" class="btn btn-info" id="btn-add-col">Добавить колонку</button>
+
+    <button type="submit" class="btn btn-success" >Сохранить</button>
+</form>
+
+
+
+<scripts>
+    <partial name="_ValidationScriptsPartial" />
+    <script charset="utf-8" type="text/javascript" src="~/js/create_price_list.js"></script>
+</scripts>
