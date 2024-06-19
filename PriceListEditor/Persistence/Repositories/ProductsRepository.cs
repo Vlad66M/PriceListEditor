@@ -12,7 +12,18 @@ namespace PriceListEditor.Persistence.Repositories
         {
             using (DbContextSqlite db = new())
             {
-                var product = await db.Products.Include(p=>p.ProductFeatures).FirstAsync(x => x.Id == id);
+                var product = await db.Products
+                    .Include(p=>p.ProductFeatures)
+                    .Select(p=>new Product()
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Code = p.Code,
+                        PriceList = p.PriceList,
+                        PriceListId = p.PriceListId,
+                        ProductFeatures = p.ProductFeatures.OrderBy(f=>f.Id).ToList()
+                    })
+                    .FirstAsync(x => x.Id == id);
                 return product;
             }
         }

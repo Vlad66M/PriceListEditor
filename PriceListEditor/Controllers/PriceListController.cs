@@ -55,7 +55,15 @@ namespace PriceListEditor.Controllers
                 ViewData["features"] = await _featuresRepository.GetSelected(selectedFeatureids);
                 return View(priceListVM);
             }
-            await _priceListService.CreatePriceList(priceListVM);
+            
+            string result = await _priceListService.CreatePriceList(priceListVM);
+            if(result != "ok")
+            {
+                ModelState.AddModelError("", result);
+                var selectedFeatureids = priceListVM.Features.Select(f => f.FeatureId).ToList();
+                ViewData["features"] = await _featuresRepository.GetSelected(selectedFeatureids);
+                return View(priceListVM);
+            }
             return RedirectToAction("Index");
         }
 

@@ -24,7 +24,7 @@
                     <span class="fw-bold cols-selector">Колонка @(columnNumber + 1)</span>
                 </div>
                 <div class="form-control">
-                    <input name="Features[@columnNumber].FeatureId" type="number" hidden value="@f.Id" />
+                    <input class="features-id-selector" name="Features[@columnNumber].FeatureId" type="number" hidden value="@f.Id" />
                     <input readonly value="@f.Title" type="text" name="Features[@columnNumber].Title" class="form-control features-name-selector" placeholder="Имя колонки">
                 </div>
                 <div class="form-control">

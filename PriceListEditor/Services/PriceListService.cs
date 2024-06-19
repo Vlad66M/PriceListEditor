@@ -18,21 +18,30 @@ namespace PriceListEditor.Services
             _featuresRepository = featuresRepository;
         }
 
-        public async Task CreatePriceList(PriceListVM priceListVM)
+        public async Task<string> CreatePriceList(PriceListVM priceListVM)
         {
-            PriceList priceList = new PriceList();
-            priceList.Name = priceListVM.Name;
-            if(priceListVM.Features is not null)
+            try
             {
-                foreach (FeatureVM featureVM in priceListVM.Features)
+                PriceList priceList = new PriceList();
+                priceList.Name = priceListVM.Name;
+                if (priceListVM.Features is not null)
                 {
-                    Feature feature = new Feature();
-                    feature.Title = featureVM.Title;
-                    feature.Type = SelectFeatureType(featureVM.Type);
-                    priceList.Features.Add(feature);
+                    foreach (FeatureVM featureVM in priceListVM.Features)
+                    {
+                        Feature feature = new Feature();
+                        feature.Id = featureVM.FeatureId ?? 0;
+                        feature.Title = featureVM.Title;
+                        feature.Type = SelectFeatureType(featureVM.Type);
+                        priceList.Features.Add(feature);
+                    }
                 }
+                await _priceListsRepository.Create(priceList);
+                return "ok";
             }
-            await _priceListsRepository.Create(priceList);
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
 
         }
 
@@ -54,14 +63,11 @@ namespace PriceListEditor.Services
                     }
                 default:
                     {
-                        throw new Exception("Unknown feature type: " + featureType);
+                        throw new Exception("Не выбран тип колонки");
                     }
             }
         }
 
-        /*public async Task<PriceListDetails> GetDetails(int id, int? page)
-        {
-            return await _priceListsRepository.GetDetails(id, page);
-        }*/
+        
     }
 }

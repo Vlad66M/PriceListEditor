@@ -8,13 +8,7 @@ using System;
 
 namespace PriceListEditor.Persistence.Repositories
 {
-    /*class ProductsComparer : IComparer<Product>
-    {
-        public int Compare(Product? p1, Product? p2)
-        {
-            var feature1 = p1.ProductFeatures.FirstOrDefault(f => f.F)
-        }
-    }*/
+   
     public class PriceListsRepository : IPriceListsRepository
     {
         private const int pageSize = 5;
@@ -22,7 +16,15 @@ namespace PriceListEditor.Persistence.Repositories
         {
             using (DbContextSqlite db = new())
             {
-                var priceLists = db.PriceLists.OrderBy(x => x.Id).AsQueryable();
+                var priceLists2 = db.PriceLists.OrderBy(x => x.Id).AsQueryable();
+                var priceLists = db.PriceLists.OrderBy(x => x.Id)
+                    .Select(p => new PriceList()
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Features = p.Features.OrderBy(f => f.Id).ToList(),
+                    })
+                    .AsQueryable();
                 return await PagedList<PriceList>.ToPagedList(priceLists, page, pageSize);
             }
         }
@@ -31,9 +33,29 @@ namespace PriceListEditor.Persistence.Repositories
         {
             using (DbContextSqlite db = new())
             {
-                PriceList priceList = await db.PriceLists.Include(x => x.Features).FirstAsync(x => x.Id == id);
+                PriceList priceList = await db.PriceLists
+                    .Include(x => x.Features)
+                    .Select(x=> new PriceList()
+                    {
+                        Id=x.Id,
+                        Name=x.Name,
+                        Features = x.Features.OrderBy(f=>f.Id).ToList()
+                    })
+                    .FirstAsync(x => x.Id == id);
 
-                var products = db.Products.Where(x => x.PriceListId == id).Include(x => x.ProductFeatures).OrderBy(x => x.Id);
+                var products = db.Products
+                    .Where(x => x.PriceListId == id)
+                    .Include(x => x.ProductFeatures)
+                    .Select(x=> new Product()
+                    {
+                        Id= x.Id,
+                        Name=x.Name,
+                        Code = x.Code,
+                        PriceList = x.PriceList,
+                        PriceListId = x.PriceListId,
+                        ProductFeatures = x.ProductFeatures.OrderBy(f=>f.Id).ToList()
+                    })
+                    .OrderBy(x => x.Id);
 
                 if(orderby is not null)
                 {
@@ -86,6 +108,13 @@ namespace PriceListEditor.Persistence.Repositories
         {
             using (DbContextSqlite db = new())
             {
+                foreach(Feature f in priceList.Features)
+                {
+                    if(f.Id!= 0)
+                    {
+                        db.Attach(f);
+                    }
+                }
                 db.PriceLists.Add(priceList);
                 await db.SaveChangesAsync();
             }

@@ -41,6 +41,7 @@ namespace PriceListEditor.Helpers
             {
                 modelState.AddModelError("", "Не выбран тип колонки");
             }
+            
         }
     }
 }

@@ -11,7 +11,7 @@ namespace PriceListEditor.Persistence.Repositories
         {
             using (DbContextSqlite db = new())
             {
-                var features = await db.Features.ToListAsync();
+                var features = await db.Features.OrderBy(f=>f.Id).ToListAsync();
                 return features;
             }
         }
@@ -20,7 +20,7 @@ namespace PriceListEditor.Persistence.Repositories
         {
             using (DbContextSqlite db = new())
             {
-                var features = await db.Features.Where(f => ids.Contains(f.Id)).ToListAsync();
+                var features = await db.Features.Where(f => ids.Contains(f.Id)).OrderBy(f => f.Id).ToListAsync();
                 return features;
             }
         }
@@ -29,7 +29,7 @@ namespace PriceListEditor.Persistence.Repositories
         {
             using (DbContextSqlite db = new())
             {
-                var features = await db.PriceLists.Where(x => x.Id == id).Select(x => x.Features).FirstOrDefaultAsync();
+                var features = await db.PriceLists.Where(x => x.Id == id).OrderBy(f => f.Id).Select(x => x.Features).FirstOrDefaultAsync();
                 if(features is null)
                 {
                     return new List<Feature>();
@@ -49,7 +49,7 @@ namespace PriceListEditor.Persistence.Repositories
                     var price = await db.PriceLists.FirstOrDefaultAsync(x => x.Id == product.PriceListId);
                     if(price is not null)
                     {
-                        features = await db.PriceLists.Where(x => x.Id == price.Id).Select(x => x.Features).FirstAsync();
+                        features = await db.PriceLists.Where(x => x.Id == price.Id).OrderBy(f => f.Id).Select(x => x.Features).FirstAsync();
                     }
                 }
                 return features;

@@ -48,6 +48,9 @@ function renameElements() {
     var allFeatureTypeInputs = document.querySelectorAll('.features-type-selector');
     var featureTypeInputsArray = [...allFeatureTypeInputs]; 
 
+    var allFeatureIdsInputs = document.querySelectorAll('.features-id-selector');
+    var featureIdsInputsArray = [...allFeatureIdsInputs];
+
     let counter = 0;
     
 
@@ -68,6 +71,13 @@ function renameElements() {
     featureTypeInputsArray.forEach(el => {
         
         el.setAttribute("name", `Features[${counter}].Type`);
+        counter++;
+    });
+
+    counter = 0;
+    featureIdsInputsArray.forEach(el => {
+
+        el.setAttribute("name", `Features[${counter}].FeatureId`);
         counter++;
     });
 }

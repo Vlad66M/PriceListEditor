@@ -10,8 +10,8 @@ using PriceListEditor.Persistence.DbContexts;
 namespace PriceListEditor.Migrations
 {
     [DbContext(typeof(DbContextSqlite))]
-    [Migration("20240619072430_AddFeatureIdToProdFeature")]
-    partial class AddFeatureIdToProdFeature
+    [Migration("20240619192724_CreateNewDb")]
+    partial class CreateNewDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

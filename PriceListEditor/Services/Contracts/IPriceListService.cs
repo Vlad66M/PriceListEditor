@@ -4,6 +4,6 @@ namespace PriceListEditor.Services.Contracts
 {
     public interface IPriceListService
     {
-        Task CreatePriceList(PriceListVM priceListVM);
+        Task<string> CreatePriceList(PriceListVM priceListVM);
     }
 }
