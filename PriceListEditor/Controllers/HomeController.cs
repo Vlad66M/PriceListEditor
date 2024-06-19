@@ -15,7 +15,7 @@ namespace PriceListEditor.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "PriceList");
         }
 
         public IActionResult Privacy()

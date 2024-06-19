@@ -18,14 +18,17 @@ namespace PriceListEditor.Services
             Product product = new Product();
             product.PriceListId = createProductVM.PriceListId;
             product.Name = createProductVM.Name;
-            product.Code = createProductVM.Code;
-            foreach (ProductFeature feature in createProductVM.Features)
+            product.Code = createProductVM.Code ?? 0;
+            if(createProductVM.Features is not null)
             {
-                feature.Product = product;
-                
-                product.ProductFeatures.Add(feature);
+                foreach (ProductFeature feature in createProductVM.Features)
+                {
+                    feature.Product = product;
+
+                    product.ProductFeatures.Add(feature);
+                }
             }
-            await _productsRepository.CreateProduct(product);
+            await _productsRepository.Create(product);
         }
     }
 }

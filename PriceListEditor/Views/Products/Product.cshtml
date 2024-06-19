@@ -1,0 +1,40 @@
+﻿@using PriceListEditor.ViewModels
+@model ProductDetailsVM
+
+<h2>Информация о товаре</h2>
+<br />
+
+<div class="d-flex flex-column product-container">
+    <div class="d-flex flex-row">
+        <p class="product-feature">Название: </p>
+        <p class="product-feature">@Model.Product.Name</p>
+    </div>
+    <div class="d-flex flex-row">
+        <p class="product-feature">Код товара: </p>
+        <p class="product-feature">@Model.Product.Code</p>
+    </div>
+
+    @{
+        int counter = 0;
+    }
+
+    @foreach (Feature feature in Model.Features)
+    {
+        <div class="d-flex flex-row">
+            <p class="product-feature">@feature.Title:</p>
+            <p class="product-feature">@Model.Product.ProductFeatures[counter].Value</p>
+        </div>
+        counter++;
+    }
+
+</div>
+
+<form id="delete-form" method="post" asp-action="DeleteProduct" asp-controller="Products">
+    <input name="PriceListId" type="number" hidden value="@Model.Product.PriceListId" />
+    <input name="ProductId" type="number" hidden value="@Model.Product.Id" />
+    <button onclick="deleteProduct(@Model.Product.Id)" class="btn btn-danger mt-3" type="button">Удалить товар</button>
+</form>
+
+
+
+<script src="~/js/delete_product.js"></script>

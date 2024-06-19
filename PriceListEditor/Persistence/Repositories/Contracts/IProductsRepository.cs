@@ -4,6 +4,8 @@ namespace PriceListEditor.Persistence.Repositories.Contracts
 {
     public interface IProductsRepository
     {
-        Task CreateProduct(Product product);
+        Task<Product> GetById(int id);
+        Task Create(Product product);
+        Task Delete(int id);
     }
 }

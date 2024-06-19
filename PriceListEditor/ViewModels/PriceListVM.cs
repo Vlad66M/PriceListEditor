@@ -6,6 +6,6 @@ namespace PriceListEditor.ViewModels
     {
         [Required]
         public string Name {  get; set; }
-        public FeatureVM[] Features { get; set; }
+        public FeatureVM[]? Features { get; set; }
     }
 }

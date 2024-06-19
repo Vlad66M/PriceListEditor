@@ -22,12 +22,15 @@ namespace PriceListEditor.Services
         {
             PriceList priceList = new PriceList();
             priceList.Name = priceListVM.Name;
-            foreach (FeatureVM featureVM in priceListVM.Features)
+            if(priceListVM.Features is not null)
             {
-                Feature feature = new Feature();
-                feature.Title = featureVM.Title;
-                feature.Type = SelectFeatureType(featureVM.Type);
-                priceList.Features.Add(feature);
+                foreach (FeatureVM featureVM in priceListVM.Features)
+                {
+                    Feature feature = new Feature();
+                    feature.Title = featureVM.Title;
+                    feature.Type = SelectFeatureType(featureVM.Type);
+                    priceList.Features.Add(feature);
+                }
             }
             await _priceListsRepository.Create(priceList);
 

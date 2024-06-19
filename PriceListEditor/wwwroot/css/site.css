@@ -20,3 +20,28 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.width-100{
+    width: 100px;
+}
+
+.width-300{
+    width: 300px;
+}
+
+.mr-6{
+    margin-right: 6px;
+}
+
+.product-container {
+    padding: 3px; 6px;
+    background-color: lightgrey;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 3px solid black;
+    box-shadow: 3px 3px dimgrey, -1em 0 .4em grey;
+}
+
+.product-feature{
+    font-size: 20px;
+    margin-right: 6px;
+}

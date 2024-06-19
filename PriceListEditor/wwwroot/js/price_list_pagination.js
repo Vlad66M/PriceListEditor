@@ -9,23 +9,22 @@ var btnsArray = [...allBtns];
 btnsArray.forEach(el => {
     el.addEventListener("click", () => {
         let page = el.innerHTML;
-        console.log(page);
+        
         if (isNaN(page)) {
             if (page == "←") {
-                console.log("enter <-");
+                
                 currentPage--;
                 if (currentPage <= 0) {
                     currentPage = 1;
                 }
             }
             if (page == "→") {
-                console.log("enter ->");
-                console.log("totalPages:" + totalPages);
+                
                 currentPage++;
                 if (currentPage > totalPages) {
                     currentPage = totalPages;
                 }
-                console.log("currentPage:" + currentPage);
+                
             }
             page = currentPage;
         }
@@ -55,7 +54,7 @@ function ajaxCallGetPriceLists(page) {
         },
 
         error: function (error) {
-            console.log(`Error ${error}`);
+            
         }
     });
 }
@@ -64,7 +63,7 @@ function fillTable(data) {
     let list = JSON.parse(data);
     currentPage = list.Products.currentPage;
     totalPages = list.Products.totalPages;
-    console.log(list);
+    
     let tableHeadFeatures = ``;
     list.PriceList.Features.forEach(f => {
         tableHeadFeatures += `<th class="user-select-none" style="cursor: pointer;" onclick="submit_ordering(${f.Id})" scope="col">${f.Title}</th>`;

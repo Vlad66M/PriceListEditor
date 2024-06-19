@@ -8,23 +8,22 @@ var btnsArray = [...allBtns];
 btnsArray.forEach(el => {
     el.addEventListener("click", () => {
         let page = el.innerHTML;
-        console.log(page);
+        
         if (isNaN(page)) {
             if (page == "←") {
-                console.log("enter <-");
+                
                 currentPage--;
                 if (currentPage <= 0) {
                     currentPage = 1;
                 }
             }
             if (page == "→") {
-                console.log("enter ->");
-                console.log("totalPages:" + totalPages);
+                
                 currentPage++;
                 if (currentPage > totalPages) {
                     currentPage = totalPages;
                 }
-                console.log("currentPage:" + currentPage);
+                
             }
             page = currentPage;
         }
@@ -59,7 +58,7 @@ function fillTable(data) {
     let list = JSON.parse(data);
     currentPage = list.currentPage;
     totalPages = list.totalPages;
-    console.log(list);
+    
     let tableContent = '';
     list.data.forEach(el => {
         tableContent += `
@@ -84,4 +83,5 @@ function fillTable(data) {
     `;
 
     document.getElementById("price-lists-container").innerHTML = content;
+
 }

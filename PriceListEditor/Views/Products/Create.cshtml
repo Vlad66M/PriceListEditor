@@ -2,7 +2,7 @@
 @using PriceListEditor.ViewModels
 @model CreateProductVM
 
-<h2>Добавление товара INDEX</h2>
+<h2>Добавление товара</h2>
 
 <form method="post" asp-action="Create" asp-route-id="@ViewData["price_list_id"]" asp-controller="Products" asp-antiforgery="true">
     <div class="validation" asp-validation-summary="ModelOnly">  </div>
@@ -21,25 +21,25 @@
         @{
             int counter = 0;
         }
-        @foreach(Feature f in ViewData["features"] as List<Feature>)
+        @foreach (Feature f in ViewData["features"] as List<Feature>)
         {
-            
+
             <div class="d-flex flex-row">
                 <div class="form-control">
                     @f.Title
                 </div>
                 <input name="Features[@counter].FeatureId" type="number" hidden value="@f.Id" />
-                @if(f.Type == FeatureType.Number)
+                @if (f.Type == FeatureType.Number)
                 {
-                    <input asp-for="Features[@counter].Value" name="Features[@counter].Value" type="number" id="typeNumber" class="form-control" />
+                    <input asp-for="Features[counter].Value" name="Features[@counter].Value" type="number" id="typeNumber" class="form-control" />
                 }
                 @if (f.Type == FeatureType.Line)
                 {
-                    <input asp-for="Features[@counter].Value" type="text" name="Features[@counter].Value" class="form-control">
+                    <input asp-for="Features[counter].Value" type="text" name="Features[@counter].Value" class="form-control">
                 }
                 @if (f.Type == FeatureType.Multiline)
                 {
-                    <textarea asp-for="Features[@counter].Value" name="Features[@counter].Value" class="form-control" rows="3"></textarea>
+                    <textarea asp-for="Features[counter].Value" name="Features[@counter].Value" class="form-control" rows="3"></textarea>
                 }
                 
                 @{
@@ -49,5 +49,5 @@
         }
     </div>
 
-    <button type="submit" class="btn btn-success">Сохранить</button>
+    <button type="submit" class="btn btn-success mt-3">Сохранить</button>
 </form>
