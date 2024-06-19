@@ -62,5 +62,26 @@ namespace PriceListEditor.Controllers
             await _priceListService.CreatePriceList(priceListVM);
             return RedirectToAction("Index");
         }
+
+        [HttpGet("/price_lists/{id:int}")]
+        public async Task<IActionResult> PriceList(int id, int? page = null, int? orderby = null, bool? asc = null)
+        {
+            var model = await _priceListsRepository.GetDetails(id, page, orderby, asc);
+            ViewData["price_list_id"] = id;
+            return View(model);
+        }
+
+        [HttpGet("/get_products_list_json/{id:int}")]
+        public async Task<string> GetProductsJson(int id, int? page, int? orderby = null, bool? asc = null)
+        {
+            var products = await _priceListsRepository.GetDetails(id, page, orderby, asc);
+            var json = JsonConvert.SerializeObject(products, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+            return json;
+        }
+
     }
 }

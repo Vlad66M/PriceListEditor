@@ -1,0 +1,63 @@
+﻿@using PriceListEditor.ViewModels
+@model PriceListDetails
+
+<h2>@Model.PriceList.Name</h2>
+<input id="price-list-id" type="number" hidden value="@ViewData["price_list_id"]" />
+
+<div class="d-flex flex-row">
+    <button type="button" class="btn btn-success">
+        <a class="link-offset-2 link-underline link-underline-opacity-0 text-white" href="~/create_product/@Model.PriceList.Id">Добавть позицию</a>
+    </button>
+    <button type="button" class="btn btn-secondary">
+        <a class="link-offset-2 link-underline link-underline-opacity-0 text-black" href="~/price_lists">Назад к списку</a>
+    </button>
+</div>
+
+<div id="products-container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="user-select-none" style="cursor: pointer;" onclick="submit_ordering(1)" scope="col">Название товара</th>
+                <th class="user-select-none" style="cursor: pointer;" onclick="submit_ordering(2)" scope="col">Код товара</th>
+                @{
+                    int orderCount = 2;
+                }
+                @foreach(Feature f in Model.PriceList.Features)
+                {
+                    orderCount++;
+                    <th class="user-select-none" style="cursor: pointer;" onclick="submit_ordering(@f.Id)" scope="col">@f.Title</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Product prod in Model.Products)
+            {
+                <tr>
+                    <td>
+                        <a class="link-offset-2 link-underline link-underline-opacity-0" href="~/products/@prod.Id">@prod.Name</a>
+                    </td>
+                    <td>@prod.Code</td>
+                    @foreach(ProductFeature productFeature in prod.ProductFeatures)
+                    {
+                        <td>@productFeature.Value</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (Model.Products.totalPages > 1)
+{
+    <button type="button" class="btn-price-list-pagination">&#8592;</button>
+    for (int i = 0; i < Model.Products.totalPages; i++)
+    {
+        <button type="button" class="btn-price-list-pagination">@(i + 1)</button>
+    }
+    <button type="button" class="btn-price-list-pagination">&#8594;</button>
+}
+
+<scripts>
+    <script charset="utf-8" type="text/javascript" src="~/js/price_list_pagination.js"></script>
+    <script charset="utf-8" type="text/javascript" src="~/js/order_products.js"></script>
+</scripts>

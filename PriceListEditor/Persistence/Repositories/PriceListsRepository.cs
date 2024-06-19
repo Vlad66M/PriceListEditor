@@ -4,9 +4,17 @@ using PriceListEditor.Pagination;
 using PriceListEditor.Persistence.DbContexts;
 using PriceListEditor.Persistence.Repositories.Contracts;
 using PriceListEditor.ViewModels;
+using System;
 
 namespace PriceListEditor.Persistence.Repositories
 {
+    /*class ProductsComparer : IComparer<Product>
+    {
+        public int Compare(Product? p1, Product? p2)
+        {
+            var feature1 = p1.ProductFeatures.FirstOrDefault(f => f.F)
+        }
+    }*/
     public class PriceListsRepository : IPriceListsRepository
     {
         private const int pageSize = 5;
@@ -19,13 +27,50 @@ namespace PriceListEditor.Persistence.Repositories
             }
         }
 
-        public async Task<PriceListDetails> GetDetails(int id, int? page)
+        public async Task<PriceListDetails> GetDetails(int id, int? page = null, int? orderby = null, bool? asc = null)
         {
             using (DbContextSqlite db = new())
             {
                 PriceList priceList = await db.PriceLists.Include(x => x.Features).FirstAsync(x => x.Id == id);
 
                 var products = db.Products.Where(x => x.PriceListId == id).Include(x => x.ProductFeatures).OrderBy(x => x.Id);
+
+                if(orderby is not null)
+                {
+                    if(orderby == 1)
+                    {
+                        if(asc == true)
+                        {
+                            products = products.OrderBy(x => x.Name);
+                        }
+                        if (asc == false)
+                        {
+                            products = products.OrderByDescending(x => x.Name);
+                        }
+                    }
+                    if (orderby == 2)
+                    {
+                        if (asc == true)
+                        {
+                            products = products.OrderBy(x => x.Code);
+                        }
+                        if (asc == false)
+                        {
+                            products = products.OrderByDescending(x => x.Code);
+                        }
+                    }
+                    if (orderby > 2)
+                    {
+                        if (asc == true)
+                        {
+                            products = products.OrderBy(x => x.ProductFeatures.FirstOrDefault(f => f.FeatureId == orderby).Value ?? "");
+                        }
+                        if (asc == false)
+                        {
+                            products = products.OrderByDescending(x => x.ProductFeatures.FirstOrDefault(f => f.FeatureId == orderby).Value ?? "");
+                        }
+                    }
+                }
 
                 PriceListDetails details = new();
 

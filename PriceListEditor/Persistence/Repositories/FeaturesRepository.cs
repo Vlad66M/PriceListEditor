@@ -15,5 +15,14 @@ namespace PriceListEditor.Persistence.Repositories
                 return features;
             }
         }
+
+        public async Task<List<Feature>> GetByPriceListId(int id)
+        {
+            using (DbContextSqlite db = new())
+            {
+                var features = await db.PriceLists.Where(x => x.Id == id).Select(x => x.Features).FirstAsync();
+                return features;
+            }
+        }
     }
 }

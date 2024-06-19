@@ -1,0 +1,54 @@
+﻿@using PriceListEditor.Enums
+@using PriceListEditor.ViewModels
+@model CreateProductVM
+
+<h2>Добавление товара</h2>
+
+<form method="post" asp-action="Create" asp-controller="Products" asp-antiforgery="true">
+    <div class="validation" asp-validation-summary="ModelOnly">  </div>
+    <input type="text" value="@ViewData["price_list_id"]" name="PriceListId" hidden />
+    <div class="form-group">
+        <label for="Name">Название товара *</label>
+        <input type="text" name="Name" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="Code">Артикул *</label>
+        <input type="text" name="Code" class="form-control">
+    </div>
+
+    <div>
+        @{
+            int counter = 0;
+        }
+        @foreach(Feature f in ViewData["features"] as List<Feature>)
+        {
+            
+            <div class="d-flex flex-row">
+                <div class="form-control">
+                    @f.Title
+                </div>
+                <input name="Features[@counter].FeatureId" type="number" hidden value="@f.Id" />
+                @if(f.Type == FeatureType.Number)
+                {
+                    <input name="Features[@counter].Value" type="number" id="typeNumber" class="form-control" />
+                }
+                @if (f.Type == FeatureType.Line)
+                {
+                    <input type="text" name="Features[@counter].Value" class="form-control">
+                }
+                @if (f.Type == FeatureType.Multiline)
+                {
+                    <textarea name="Features[@counter].Value" class="form-control" rows="3"></textarea>
+                }
+                @counter++;
+                @{
+                    counter++;
+                    Console.WriteLine(counter);
+                };
+            </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-success">Сохранить</button>
+</form>

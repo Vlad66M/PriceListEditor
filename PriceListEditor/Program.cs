@@ -2,6 +2,7 @@ using PriceListEditor.Persistence.Repositories;
 using PriceListEditor.Persistence.Repositories.Contracts;
 using PriceListEditor.Services;
 using PriceListEditor.Services.Contracts;
+using System.Text.Json.Serialization;
 
 namespace PriceListEditor
 {
@@ -12,10 +13,19 @@ namespace PriceListEditor
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews().
+                AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                    options.JsonSerializerOptions.WriteIndented = true;
+                });
             builder.Services.AddScoped<IPriceListsRepository, PriceListsRepository>();
             builder.Services.AddScoped<IFeaturesRepository, FeaturesRepository>();
+            builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
             builder.Services.AddScoped<IPriceListService, PriceListService>();
+            builder.Services.AddScoped<IProductsService, ProductsService>();
+
+            
 
             var app = builder.Build();
 

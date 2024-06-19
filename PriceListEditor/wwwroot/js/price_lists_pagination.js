@@ -65,7 +65,7 @@ function fillTable(data) {
         tableContent += `
             <tr>
                     <td>${el.Id}</td>
-                    <td>${el.Name}</td>
+                    <td><a class="link-offset-2 link-underline link-underline-opacity-0" href="price_lists/${el.Id}">${el.Name}</a></td>
             </tr>
         `;
     });

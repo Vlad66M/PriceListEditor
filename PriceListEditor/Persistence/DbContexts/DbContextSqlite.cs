@@ -8,6 +8,7 @@ namespace PriceListEditor.Persistence.DbContexts
         public DbSet<PriceList> PriceLists { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Feature> Features { get; set; } = null!;
+        public DbSet<ProductFeature> ProductFeatures { get; set; } = null!;
 
         public DbContextSqlite(DbContextOptions<DbContextSqlite> options) : base(options)
         {
