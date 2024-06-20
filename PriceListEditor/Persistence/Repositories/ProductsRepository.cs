@@ -21,7 +21,7 @@ namespace PriceListEditor.Persistence.Repositories
                         Code = p.Code,
                         PriceList = p.PriceList,
                         PriceListId = p.PriceListId,
-                        ProductFeatures = p.ProductFeatures.OrderBy(f=>f.Id).ToList()
+                        ProductFeatures = p.ProductFeatures.OrderBy(f=>f.FeatureId).ToList()
                     })
                     .FirstAsync(x => x.Id == id);
                 return product;

@@ -16,7 +16,7 @@ namespace PriceListEditor.Persistence.Repositories
         {
             using (DbContextSqlite db = new())
             {
-                var priceLists2 = db.PriceLists.OrderBy(x => x.Id).AsQueryable();
+                
                 var priceLists = db.PriceLists.OrderBy(x => x.Id)
                     .Select(p => new PriceList()
                     {
@@ -53,7 +53,7 @@ namespace PriceListEditor.Persistence.Repositories
                         Code = x.Code,
                         PriceList = x.PriceList,
                         PriceListId = x.PriceListId,
-                        ProductFeatures = x.ProductFeatures.OrderBy(f=>f.Id).ToList()
+                        ProductFeatures = x.ProductFeatures.OrderBy(f=>f.FeatureId).ToList()
                     })
                     .OrderBy(x => x.Id);
 

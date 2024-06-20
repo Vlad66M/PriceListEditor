@@ -3,9 +3,9 @@ using PriceListEditor.ViewModels;
 
 namespace PriceListEditor.Helpers
 {
-    public static class ValidationHelper
+    public class ValidationHelper
     {
-        public static void AddErrorMessagesToProduct(ModelStateDictionary modelState, CreateProductVM createProductVM)
+        public void AddErrorMessagesToProduct(ModelStateDictionary modelState, CreateProductVM createProductVM)
         {
             foreach(var el in modelState)
             {
@@ -26,7 +26,7 @@ namespace PriceListEditor.Helpers
             }
         }
 
-        public static void AddErrorMessagesToPriceList(ModelStateDictionary modelState, PriceListVM priceListVM)
+        public void AddErrorMessagesToPriceList(ModelStateDictionary modelState, PriceListVM priceListVM)
         {
             foreach (var el in modelState)
             {

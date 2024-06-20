@@ -46,7 +46,7 @@ namespace PriceListEditor.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ValidationHelper.AddErrorMessagesToProduct(ModelState, createProductVM);
+                new ValidationHelper().AddErrorMessagesToProduct(ModelState, createProductVM);
                 ViewData["features"] = await _featuresRepository.GetByPriceListId(id);
                 ViewData["price_list_id"] = id;
                 return View(createProductVM);

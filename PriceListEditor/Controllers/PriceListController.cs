@@ -48,9 +48,13 @@ namespace PriceListEditor.Controllers
         [HttpPost("/create_price_list")]
         public async Task<IActionResult> Create(PriceListVM priceListVM)
         {
+            if(priceListVM is null)
+            {
+                throw new NullReferenceException(nameof(priceListVM));
+            }
             if(!ModelState.IsValid)
             {
-                ValidationHelper.AddErrorMessagesToPriceList(ModelState, priceListVM);
+                new ValidationHelper().AddErrorMessagesToPriceList(ModelState, priceListVM);
                 var selectedFeatureids = priceListVM.Features.Select(f=>f.FeatureId).ToList();
                 ViewData["features"] = await _featuresRepository.GetSelected(selectedFeatureids);
                 return View(priceListVM);
